@@ -8,6 +8,7 @@ metadata:
   labels:
     name: my-app
 spec:
+  project: default
   # Source of the application manifests
   source:
     repoURL: https://github.com/rkaeffer/codelab-gitops-argocd.git
