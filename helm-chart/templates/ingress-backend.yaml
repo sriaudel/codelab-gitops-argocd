@@ -1,0 +1,29 @@
+---
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: argocd-frontend-config
+  namespace: argocd
+spec:
+  redirectToHttps:
+    enabled: true
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-frontend
+  annotations:
+    networking.gke.io/v1beta1.FrontendConfig: argocd-frontend-config
+spec:
+  rules:
+    - host: rkaeffer-kcl-backend.codelab.cloud-sp.eu
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 80
