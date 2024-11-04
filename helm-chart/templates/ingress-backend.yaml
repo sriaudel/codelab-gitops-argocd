@@ -1,8 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-frontend
+  name: ingress-backend
 spec:
+  tls:
+  - hosts:
+    - rkaeffer-kcl-backend.codelab.cloud-sp.eu
   rules:
     - host: rkaeffer-kcl-backend.codelab.cloud-sp.eu
       http:
