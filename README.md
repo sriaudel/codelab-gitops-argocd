@@ -32,9 +32,31 @@ Allez, c'est parti ! 🙂
 
 ## Présentation de l'environnement
 
+Nous vous avons mis un disposition un cluster Kubernetes déployé sur le cloud public Azure ([Azure Kubernetes Services](https://azure.microsoft.com/fr-fr/products/kubernetes-service)).
+
+Un <b>identifiant</b> vous est attribué à tous. Ce dernier est systématiquement composé de la manière suivante : <b>[premiere_lettre_de_votre_prenom][votre_nom]</b>. Voici deux exemples : 
+* Rémi KAEFFER -> rkaeffer
+* Jason BOURLARD -> jbourlard
+
+Par défaut, ce cluster vous propose les services suivants : 
+* Une instance commune d'ArgoCD, qui va vous permettre de déployer vos applications, et disponible à l'URL suivante : https://argo-cd.codelab.cloud-sp.eu/
+    * Username : admin
+    * Password : A REMPLIR LE JOUR DU LAB - ET A EFFACER APRES
+* Un environnement de développement pour chacun d'entre vous, composés de deux namespaces : 
+    * Un namespace, nommé kcl-[identifiant]-wk, portant un VScode et tout plein d'outils (kubectl, git, ...), et accessible à l'url [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
+    * Un namespace, nommé kcl-[identifiant], où devra être déployé vos applications
+
 ## Pré-requis avant de démarrer
 
+Pour pouvoir effectuer ce codelab, quatres pré-requis sont nécessaires (Pas de panique, rien à installer 😁) : 
+* Etre connecté à notre réseau Wifi SSG-Guest (Normalement, on vous a autorisé ce matin, si ce n'est pas le cas, faites le nous savoir) !
+* Disposer d'un compte Github, et avoir généré un [personal token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) d'accès pour pouvoir push sur vos repositories
+* Vérifier que vous avez bien accès à [ArgoCD](https://argo-cd.codelab.cloud-sp.eu/)
+* Vérifier que vous avez bien accès à votre environnement de travail : [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
+
 ## Instructions du codelab
+
+### Etape 0 - Préparation et exploration
 
 ### Etape 1 - Créer une application dans ArgoCD
 
