@@ -18,4 +18,4 @@ spec:
       - name: backend
         image: docker.io/rkaeffer/codelab-gitops-backend:1.0.0
         ports:
-        - containerPort: 80
+        - containerPort: 8080
