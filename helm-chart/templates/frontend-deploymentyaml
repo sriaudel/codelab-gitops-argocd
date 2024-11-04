@@ -18,4 +18,4 @@ spec:
       - name: frontend
         image: docker.io/rkaeffer/codelab-gitops-frontend:1.0.0
         ports:
-        - containerPort: 80
+        - containerPort: 4200
