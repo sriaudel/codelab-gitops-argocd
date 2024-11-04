@@ -12,7 +12,7 @@ spec:
   # Source of the application manifests
   source:
     repoURL: https://github.com/rkaeffer/codelab-gitops-argocd.git
-    path: .
+    path: helm-chart
     targetRevision: main
     helm:
       releaseName: my-app
