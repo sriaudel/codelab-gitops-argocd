@@ -337,13 +337,46 @@ Le temps a passé, et notre frontend est dévenu obsolète 🤷‍♂️. Il est
 
 Il est temps de décomissioner notre beau frontend 😢.
 
+Supprimez ou commentez les descripteurs de déploiement frontend et faites un commit. 
+
+Ca y est, dès que la synchronisation s'éxecute, le décomissionement est terminé ! 
+
+Simple comme bonjour 😀
 
 
 ### Etape 6 - Rollback du décomissionement
 
-Catastrophe 🤦‍♂️ Le nouveau frontend déployé apr l'autre équipe ne fonctionne pas du tout 🤐. Il faut rétablir l'ancien service en urgence 🚨 !
+Catastrophe 🤦‍♂️ Le nouveau frontend déployé par l'autre équipe ne fonctionne pas du tout 🤐. La maitrise d'ouvrage et la maitrise d'oeuvre sont en panique, c'est la débandade ! Il faut rétablir l'ancien service en urgence 🚨 !
+
+Cliquez donc sur "History and Rollback". Vous pouvez visualiez une liste à deux elements : 
+* La version courante que vous pouvez "redeploy"
+* La version précédente que vous pouvez "rollback"
+
+Déclenchons un rollback ! 
+
+Au bout de quelques secondes, notre frontend est de retour 🎉 Nous sommes sauvés.
+
+Nous pouvons noter plusieurs choses interéssantes sur l'interface : 
+
+![Rollback argocd](docs/argo_rollback.PNG "Rollback ArgoCD")
+
+* Premièrement : l'auto sync a été désactivé, en effet, en effectuant le rollback, nous nous sommes détachés de notre source de vérité. Si l'auto sync était actif, le rollback serait annulé tout aussi vite qu'il avait été déclenché.
+* Deuxièment : ArgoCD nous précise qu'il y a des composants UPs sui normalement devrait être supprimés à l'aide d'une petite icône de corbeille jaune, ce qui nous permet de détecter qu'il y a eu une opération inhabituelle.
+
+> [!IMPORTANT]
+> Ici, nous avons effectué le rollback via ArgoCD. La méthode la plus propre aurait été de faire un revert sur Git, pour que notre source de vérité soir toujours à jour. Mais dans l'urgence, l'option que nous avons choisi reste valable !
+
+> [!NOTE]
+> Pour revenir à une situation nominale, il faut rétablir notre source de vérité à l'état souhaité dans Git, puis redéployer notre objet application ArgoCD pour réactiver l'auto-sync.
 
 ### Etape 7 - Pour aller plus loin
+
+Vous avez fini en avance ? Sentez vous libre de faire des expérimentations 😎
+
+Voici quelques idées :
+* TODO
+* TODO
+* TODO
 
 ## Pour conclure
 
