@@ -206,15 +206,74 @@ Nous allons commencer par déployer un simple microservice Java. Nous avons pré
 
 Voici un petit schéma qui rapelle les composants à mettre en oeuvre sur Kubernetes pour déployer et exposer une application : 
 
+![Basiques du déploiement sur K8S](docs/basic_k8s.PNG "Basiques du déploiement sur K8S")
+
+Vous allez créer un composant déploiement (deploy), qui va instancier un replicaSet (rs), qui va instancier des pods (pod). Ces pods vont être exposés sur le cluster à l'aide d'un service (svc). Les services sont exposés à l'extérieur du cluster à l'aide d'ingress (ing).
+
+On est parti ! Commencer par observer le fichier `Chart.yaml` contenu dans le dossier `helm-chart`.
+
+```yaml
+apiVersion: v2
+name: my-app-chart
+description: My super chart for gitops codelab
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+```
+
+Pas de surprise ici, nous avons une déclaration d'un chart Helm tout ce qu'il y a de plus basique. Vous pouvez changer le nom de votre chart si vous le désirez.
+
+Nous allons nous intéresser désormais au sous-dossier `helm-chart/templates`, qui contient nos différents descripteurs de déploiement : 
+* `backend-deployment.yaml` : Composant deployment
+* `backend-service.yaml` : Composant service
+* `ingress-backend.yaml` : Composant ingress
+
+Commencez par décommentez entièrement les 3 fichier (Sur chaque fichier : `Ctrl + a`, `puis Ctrl + /`).
+
+Les fichiers sont déjà complétés pour vous. Nous ne détaillerons pas le contenu de chacun des fichiers. Gloablement, il s'agit de descritepru minimaliste pour déployer une appliction sur Kubernetes. Vous pouvez prendre le temps de les observer dans le détail, notamment le parametrage à faire à l'aide du templating Go par l'intermédiaire du fichier `values.yaml`. 
+
+Vous allez devoir compléter le fichier `values.yaml`. Remplissez-le à l'aide des informations ci-dessous :
+
+* Vous pouvez nommer librement votre application backend
+* Le backend est servi par un serveur applicatif embarqué via SpringBootqui écoute sur le port `8080`
+* L'image de conteneur du backend est disponible ici : `docker.io/rkaeffer/codelab-gitops-backend:1.0.0`
+* Le nom de domaine à utiliser doit être dans le sous-domaine `*.codelab.cloud-sp.eu`. Le mieux est d'utiliser `[identifiant]-backend.codelab.cloud-sp.eu`
+* Le service doit être exposé en TLS sur port `443`
+
+Une fois cela fait, pushez votre travail sur votre repository github. Pour rappel, votre identifiant sur github est votre nom d'utilisateur github, et votre mot de passe est votre personal access token.
+
+```shell
+# ATTENTION : vous devez configurer quelques variables git avant votre premier commit
+git config --global user.email "votre@email.com"
+git config --gloabl user.name "Prénom nom"
+git add .
+git commit -m "Deploiement backend"
+# ATTENTION : Au moment de votre premier push, vous devrez vous authentifier. La methode la plus simple est la suivante : une première pop-up apparait. Faites "Cancel". Puis le workspace demande votre nom d'utilisateur. Saisissez votre nom d'utilisateur github. Ensuite, le workspace vous demande votre mot de passe. Postionnez votre personal access token.
+git push -u origin main
+```
+
+ArgoCD fait une opération de syncrhonisation automatique avec votre repository Git toutes les 180 secondes. Vous pouvez forcer la synchronisation en appuyant sur "SYNC" depuis la vue sur votre application.
+Une fois la synchronisation déclenché, le déploiement se fait en quelques secondes.
+
+Si tout se passe bien, vous devriez obtenir le résultat suivant : 
+
+![Résultat déploiement backend](docs/argo_deploy_back1.PNG "Résultat déploiement backend")
+
+Sinon, corriger les erreurs, et recommencez !
+
+> [!TIP]
+> Si une synchronisation reste bloqué (Elle n'est pas réellement bloqué, c'est juste qu'il y 5 retry successifs de respectivement 5s, 10s, 20s, 40s et 80s, cf. fichier de configuration argocd dans syncPolicy.retry.backoff, ce qui peut donner une impression de blocage), forcer la fin de synchronisation en cliquant sur "Terminate" depuis la vue de détails de la syncrhonisation.
+
 ### Etape 3 - Deploiement du frontend
 
-Cette foic-ci, on va déployer une application frontend. Il vous suffit de refaire exactement la même chose que pour le backend, mais cette fois-ci, vous devez tout faire tout seul, il n'y a pas de fichier par défaut pour vous aider 🤔
+Cette fois-ci, on va déployer une application frontend. Il vous suffit de refaire exactement la même chose que pour le backend, mais cette fois-ci, vous devez tout faire tout seul, il n'y a pas de fichier par défaut pour vous aider 🤔. L'application frontend sera contenu dans le chart déjà défini dans notre repository.
 
 Les paramètres / spécifications dont vous aurez besoin sont listés ci-dessous :
+* Vous pouvez nommer librement votre application frontend
 * Le frontent est servi sur un nginx écoutant sur le port `4200`
-* L'image du frontend est disponible ici : `docker.io/rkaeffer/codelab-gitops-frontend:1.0.0`
+* L'image de conteneur du frontend est disponible ici : `docker.io/rkaeffer/codelab-gitops-frontend:1.0.0`
 * Le nom de domaine à utiliser doit être dans le sous-domaine `*.codelab.cloud-sp.eu`
-* Le service doit être exposé en TLS sur port `433`
+* Le service doit être exposé en TLS sur port `443`
 
 Si tout s'est bien passé, vous devriez obtenir le résultat suivant sur ArgoCD : 
 
@@ -242,6 +301,8 @@ kubectl delete deployment/[nom_deployment_backend] -n kcl-[identifant]
 ```
 
 Allez-y, executer la commande, et observer ce qui se passe sur ArgoCD (Attention ca va très vite !) 😁
+
+Et oui... ArgoCD a corrigé tout seul l'erreur d'exploitation. En effet...
 
 ### Etape 5 - Décomissionement du frontend
 
