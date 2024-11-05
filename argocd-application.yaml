@@ -1,25 +1,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: my-app
+  name: #TODO - Nom de votre application - Libre :)
   namespace: argo-cd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   labels:
-    name: my-app
+    name: #TODO - Nom de votre application - Libre :)
 spec:
   project: default
   # Source of the application manifests
   source:
-    repoURL: https://github.com/rkaeffer/codelab-gitops-argocd.git
-    path: helm-chart
-    targetRevision: solution
+    repoURL: #TODO - Lien vers votre repository GitHub
+    path: #TODO - Chemin dans votre repository git 
+    targetRevision: #TODO - Branche à cibler de votre repository Git 
     helm:
-      releaseName: my-app
+      releaseName: #TODO - Nom à donner à votre release helm - Libre :)
   # Destination cluster and namespace to deploy the application
   destination:
     name: in-cluster
-    namespace: my-app-namespace
+    namespace: #TODO - Namespace de déploiement de votre application
 
   # Sync policy
   syncPolicy:

@@ -60,7 +60,6 @@ Cette fois-ci, vous êtes prêt !
 
 ### Etape 0 - Préparation et exploration
 
-
 Pour démarrer ce codelab, vous devez commencer par <b>forker dans votre espace personnel github</b> le repository https://github.com/rkaeffer/codelab-gitops-argocd. 
 
 ![Fork github](docs/Fork.PNG "Fork github")
@@ -104,7 +103,7 @@ kubectl get ns
 ```
 
 Vous pouvez observer que tout un ensemble de namespaces sont présents :
-* Les namesapces portant vos environnements de développement
+* Les namespaces portant vos environnements de développement
 * Un namespace argo-cd, portant le déploiement d'ArgoCD
 * D'autres namespaces "techniques" nécessaires au bon fonctionnement de ce codelab
 
@@ -113,9 +112,6 @@ Allons faire un tour sur [ArgoCD](https://argo-cd.codelab.cloud-sp.eu/) :
 ![Présentation ArgoCD](docs/argo_initial.PNG "Présentation d'ArgoCD")
 
 N'hésitez pas à faire un tour des différents onglets pour explorer ce qu'ils contiennent !
-=======
-Pour démarrer ce codelab, vous devez commencer par forker le repository github https://github.com/rkaeffer/codelab-gitops-argocd. Ce repository contient les sources qui seront à compléter durant ce lab.
-
 
 ### Etape 1 - Créer une application dans ArgoCD
 
@@ -123,14 +119,91 @@ Comme expliqué en introduction, l'approche GitOps repose sur l'<b>utilisation d
 
 ArgoCD va ainsi nous permettre de définir des <b>applications</b>, décrites par un <b>ensemble de paramètre, notamment un lien vers un repository Git</b> qui contient les descriteurs que nous voulons déployer.
 
-Vous allez devoir créer votre première aplication dans ArgoCD en complétant le fichier argocd-application !
+Vous allez devoir créer votre première aplication dans ArgoCD en complétant la partie haute du fichier argocd-application !
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: #TODO - Nom de votre application - Libre :)
+  namespace: argo-cd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: #TODO - Nom de votre application - Libre :)
+spec:
+  project: default
+  # Source of the application manifests
+  source:
+    repoURL: #TODO - Lien vers votre repository GitHub
+    path: #TODO - Chemin dans votre repository git 
+    targetRevision: #TODO - Branche à cibler de votre repository Git 
+    helm:
+      releaseName: #TODO - Nom à donner à votre release helm - Libre :)
+  # Destination cluster and namespace to deploy the application
+  destination:
+    name: in-cluster
+    namespace: #TODO - Namespace de déploiement de votre application
+```
+
+A vous de jouer 😉
+
+Observez ensuite la partie basse du fichier : 
+
+```yaml
+ # Sync policy
+  syncPolicy:
+    automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
+      prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
+      selfHeal: false # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+    syncOptions:     # Sync options which modifies sync behavior
+    - Validate=true # disables resource validation (equivalent to 'kubectl apply --validate=false') ( true by default ).
+    - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
+    - PrunePropagationPolicy=foreground # Supported policies are background, foreground and orphan.
+    - PruneLast=false # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
+    managedNamespaceMetadata: # Sets the metadata for the application namespace. Only valid if CreateNamespace=true (see above), otherwise it's a no-op.
+      labels: # The labels to set on the application namespace
+      annotations: # The annotations to set on the application namespace
+
+    retry:
+      limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 3m # the maximum amount of time allowed for the backoff strategy
+
+  # RevisionHistoryLimit limits the number of items kept in the application's revision history, which is used for
+  # informational purposes as well as for rollbacks to previous versions. This should only be changed in exceptional
+  # circumstances. Setting to zero will store no history. This will reduce storage used. Increasing will increase the
+  # space used to store the history, so we do not recommend increasing it.
+  revisionHistoryLimit: 50
+```
+
+Ici, nous avons configurer tout ce qui est nécessaire pour le déploiement de notre application. Chaque paramètre est détaillé en commentaire.
+
+Il est temps de tester (Sans douter, bien entendu) ! Déployer votre application dans le namespace argo-cd :
+```bash
+cd codelab-gitops-argocd
+kubectl apply -f argocd-application.yaml -n argo-cd
+```
+
+Par défaut, argo-cd ne reconnait que les CRD (Custom Ressource Definition) argoproj.io/v1alpha1/application positionné dans son namespace de déploiement : argo-cd. Il est possible de le faire reconnaitre ces CRD dans d'autres namespaces en le configurant spécifiquement, mais ce n'est pas le sujet du jour !
+
+Si tout s'est bien passé, vous devriez obtenir sur ArgoCD le résultat suivant : 
 
 
-...
 
 NB : Pour aller plus loin, et pour passer à un cran au dessus dans l'approche GitOps, une utilisation courante dans l'industrie est de déployer un ArgoCD "applicatif" avec les configurations des applications qu'il doit déployer à l'aide d'un ArgoCD "infrastructure", pour que les équipes implémentant les applicatifs adopte une approche full GitOps (Pas de commande d'apply à faire sur le cluster Kubernetes). En somme : "Un ArgoCD pour les gouverner tous, un ArgoCD pour les déployer, un ArgoCD pour les superviser et dans le cloud les lier !"
 
 ### Etape 2 - Deploiement du backend
+
+Avoir une application ArgoCD correctement configuré c'est bien, que cette application ArgoCD déploie un applicatif, c'est mieux ! 
+
+Nous allons commencer par déployer un simple microservice Java. Nous avons préparé en avance une image de conteneur prête à l'emploi.
+
+Voici un petit schéma qui rapelle les composants à mettre en oeuvre sur Kubernetes pour déployer et exposer une application : 
+
+
 
 ### Etape 3 - Deploiement du frontend
 
