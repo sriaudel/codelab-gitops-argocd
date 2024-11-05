@@ -1,19 +1,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-backend
+  name: ingress-{{ .Values.backend.name }}
 spec:
   tls:
   - hosts:
-    - rkaeffer-kcl-backend.codelab.cloud-sp.eu
+    - {{ .Values.backend.host }}
   rules:
-    - host: rkaeffer-kcl-backend.codelab.cloud-sp.eu
+    - host: {{ .Values.backend.host }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: backend-service
+                name: {{ .Values.backend.name }}-service
                 port:
-                  number: 443
+                  number: {{ .Values.backend.service.port }}
