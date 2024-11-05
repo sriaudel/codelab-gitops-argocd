@@ -244,13 +244,18 @@ Vous allez devoir compléter le fichier `values.yaml`. Remplissez-le à l'aide d
 
 Une fois cela fait, pushez votre travail sur votre repository github. Pour rappel, votre identifiant sur github est votre nom d'utilisateur github, et votre mot de passe est votre personal access token.
 
+> [!CAUTION]
+> Vous devrez configurer quelques variables git avant votre premier commit
+
+> [!CAUTION]
+> Au moment de votre premier push, vous devrez vous authentifier. La methode la plus simple est la suivante : une première pop-up apparait. Faites "Cancel". Puis le workspace demande votre nom d'utilisateur. Saisissez votre nom d'utilisateur github. Ensuite, le workspace vous demande votre mot de passe. Postionnez votre personal access token.
+
 ```shell
-# ATTENTION : vous devez configurer quelques variables git avant votre premier commit
 git config --global user.email "votre@email.com"
 git config --gloabl user.name "Prénom nom"
 git add .
 git commit -m "Deploiement backend"
-# ATTENTION : Au moment de votre premier push, vous devrez vous authentifier. La methode la plus simple est la suivante : une première pop-up apparait. Faites "Cancel". Puis le workspace demande votre nom d'utilisateur. Saisissez votre nom d'utilisateur github. Ensuite, le workspace vous demande votre mot de passe. Postionnez votre personal access token.
+
 git push -u origin main
 ```
 
