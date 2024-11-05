@@ -50,7 +50,7 @@ Par défaut, ce cluster vous propose les services suivants :
 
 Pour pouvoir effectuer ce codelab, quatres pré-requis sont nécessaires (Pas de panique, rien à installer 😁) : 
 * Etre connecté à notre réseau Wifi SSG-Guest (Normalement, on vous a autorisé ce matin, si ce n'est pas le cas, faites le nous savoir) !
-* Disposer d'un compte Github, et avoir généré un [personal token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) d'accès pour pouvoir push sur vos repositories
+* Disposer d'un compte Github
 * Vérifier que vous avez bien accès à [ArgoCD](https://argo-cd.codelab.cloud-sp.eu/)
 * Vérifier que vous avez bien accès à votre environnement de travail : [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
 
@@ -228,7 +228,7 @@ Pas de surprise ici, nous avons une déclaration d'un chart Helm tout ce qu'il y
 Nous allons nous intéresser désormais au sous-dossier `helm-chart/templates`, qui contient nos différents descripteurs de déploiement : 
 * `backend-deployment.yaml` : Composant deployment
 * `backend-service.yaml` : Composant service
-* `ingress-backend.yaml` : Composant ingress
+* `backend-ingress.yaml` : Composant ingress
 
 Commencez par décommentez entièrement les 3 fichier (Sur chaque fichier : `Ctrl + a`, `puis Ctrl + /`).
 
@@ -248,18 +248,21 @@ Une fois cela fait, pushez votre travail sur votre repository github. Pour rappe
 > Vous devrez configurer quelques variables git avant votre premier commit
 
 > [!CAUTION]
-> Au moment de votre premier push, vous devrez vous authentifier. La methode la plus simple est la suivante : une première pop-up apparait. Faites "Cancel". Puis le workspace demande votre nom d'utilisateur. Saisissez votre nom d'utilisateur github. Ensuite, le workspace vous demande votre mot de passe. Postionnez votre personal access token.
+> Au moment de votre premier push, vous devrez vous authentifier. La methode la plus simple est la suivante : Au moment de votre premier push, une pop-up apparait vous demandant de vous connecter, accepter, vous serez rédigez vers une page vous demandant un One Time Password (OTP). L'OTP est disponible dans une notification en bas à droite de votre espace de travail. Saisissez l'OTP et c'est tout bon !
 
 ```shell
+#Configuration des variables git obligatoires
 git config --global user.email "votre@email.com"
 git config --gloabl user.name "Prénom nom"
 git add .
 git commit -m "Deploiement backend"
-
+#Demande d'authentification sur ce premier push
 git push -u origin main
 ```
 
-ArgoCD fait une opération de syncrhonisation automatique avec votre repository Git toutes les 180 secondes. Vous pouvez forcer la synchronisation en appuyant sur "SYNC" depuis la vue sur votre application.
+> [!TIP]
+> ArgoCD fait une opération de syncrhonisation automatique avec votre repository Git toutes les 180 secondes. Vous pouvez forcer la synchronisation en appuyant sur "SYNC" depuis la vue sur votre application.
+
 Une fois la synchronisation déclenché, le déploiement se fait en quelques secondes.
 
 Si tout se passe bien, vous devriez obtenir le résultat suivant : 
@@ -267,6 +270,10 @@ Si tout se passe bien, vous devriez obtenir le résultat suivant :
 ![Résultat déploiement backend](docs/argo_deploy_back1.PNG "Résultat déploiement backend")
 
 Sinon, corriger les erreurs, et recommencez !
+
+Si vous cliquez sur la petite flèche au niveau de l'ingress backend, vous devriez accéder à votre application backend.
+
+![Application backend](docs/back_end_result.PNG "Application backend")
 
 > [!TIP]
 > Si une synchronisation reste bloqué (Elle n'est pas réellement bloqué, c'est juste qu'il y 5 retry successifs de respectivement 5s, 10s, 20s, 40s et 80s, cf. fichier de configuration argocd dans syncPolicy.retry.backoff, ce qui peut donner une impression de blocage), forcer la fin de synchronisation en cliquant sur "Terminate" depuis la vue de détails de la syncrhonisation.
@@ -284,7 +291,11 @@ Les paramètres / spécifications dont vous aurez besoin sont listés ci-dessous
 
 Si tout s'est bien passé, vous devriez obtenir le résultat suivant sur ArgoCD : 
 
-TODO image front
+![Résultat déploiement frontend](docs/argo_deploy_front1.PNG "Résultat déploiement backend")
+
+Si vous cliquez sur la petite flèche au niveau de l'ingress frontend, vous devriez accéder à votre application frontend.
+
+![Application frontend](docs/back_end_result.PNG "Application frontend")
 
 ### Etape 4 - Jouons avec ArgoCD
 
