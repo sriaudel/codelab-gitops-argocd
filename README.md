@@ -197,7 +197,8 @@ Si tout s'est bien passé, vous devriez obtenir sur ArgoCD le résultat suivant 
 Vous pouvez explorez le détails de votre application sur ArgoCD. Vous constatez que pour le moment ArgoCD n'a pas déployé grand chose.
 
 > [!NOTE]
-> Pour aller plus loin, et pour passer à un cran au dessus dans l'approche GitOps, une utilisation courante dans l'industrie est de déployer un ArgoCD "applicatif" avec les configurations des applications qu'il doit déployer à l'aide d'un ArgoCD "infrastructure", pour que les équipes implémentant les applicatifs adopte une approche full GitOps (Pas de commande d'apply à faire sur le cluster Kubernetes). En somme : "Un ArgoCD pour les gouverner tous, un ArgoCD pour les déployer, un ArgoCD pour les superviser et dans le cloud les lier !"
+> Pour aller plus loin, et pour passer à un cran au dessus dans l'approche GitOps, une utilisation courante dans l'industrie est de déployer un ArgoCD "applicatif" avec les configurations des applications qu'il doit déployer à l'aide d'un ArgoCD "infrastructure", pour que les équipes implémentant les applicatifs adopte une approche full GitOps (Pas de commande d'apply à faire sur le cluster Kubernetes). 
+> **En somme : "Un ArgoCD pour les gouverner tous, un ArgoCD pour les déployer, un ArgoCD pour les superviser et dans le cloud les lier !"**
 
 ### Etape 2 - Deploiement du backend
 
