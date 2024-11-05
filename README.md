@@ -136,7 +136,7 @@ spec:
   # Source of the application manifests
   source:
     repoURL: #TODO - Lien vers votre repository GitHub
-    path: #TODO - Chemin dans votre repository git 
+    path: #TODO - Chemin du chart Helm dans votre repository git 
     targetRevision: #TODO - Branche à cibler de votre repository Git 
     helm:
       releaseName: #TODO - Nom à donner à votre release helm - Libre :)
@@ -155,7 +155,7 @@ Observez ensuite la partie basse du fichier :
   syncPolicy:
     automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
       prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
-      selfHeal: false # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+      selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
     syncOptions:     # Sync options which modifies sync behavior
     - Validate=true # disables resource validation (equivalent to 'kubectl apply --validate=false') ( true by default ).
     - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
@@ -191,7 +191,10 @@ Par défaut, argo-cd ne reconnait que les CRD (Custom Ressource Definition) argo
 
 Si tout s'est bien passé, vous devriez obtenir sur ArgoCD le résultat suivant : 
 
+![Application ArgoCD](docs/argo_deploy_1.PNG "Application ArgoCD")
+![Détails application ArgoCD](docs/argo_deploy_2.PNG "Détails application ArgoCD")
 
+Vous pouvez explorez le détails de votre application sur ArgoCD. Vous constatez que pour le moment ArgoCD n'a pas déployé grand chose.
 
 NB : Pour aller plus loin, et pour passer à un cran au dessus dans l'approche GitOps, une utilisation courante dans l'industrie est de déployer un ArgoCD "applicatif" avec les configurations des applications qu'il doit déployer à l'aide d'un ArgoCD "infrastructure", pour que les équipes implémentant les applicatifs adopte une approche full GitOps (Pas de commande d'apply à faire sur le cluster Kubernetes). En somme : "Un ArgoCD pour les gouverner tous, un ArgoCD pour les déployer, un ArgoCD pour les superviser et dans le cloud les lier !"
 
@@ -203,11 +206,42 @@ Nous allons commencer par déployer un simple microservice Java. Nous avons pré
 
 Voici un petit schéma qui rapelle les composants à mettre en oeuvre sur Kubernetes pour déployer et exposer une application : 
 
-
-
 ### Etape 3 - Deploiement du frontend
 
+Cette foic-ci, on va déployer une application frontend. Il vous suffit de refaire exactement la même chose que pour le backend, mais cette fois-ci, vous devez tout faire tout seul, il n'y a pas de fichier par défaut pour vous aider 🤔
+
+Les paramètres / spécifications dont vous aurez besoin sont listés ci-dessous :
+* Le frontent est servi sur un nginx écoutant sur le port `4200`
+* L'image du frontend est disponible ici : `docker.io/rkaeffer/codelab-gitops-frontend:1.0.0`
+* Le nom de domaine à utiliser doit être dans le sous-domaine `*.codelab.cloud-sp.eu`
+* Le service doit être exposé en TLS sur port `433`
+
+Si tout s'est bien passé, vous devriez obtenir le résultat suivant sur ArgoCD : 
+
+TODO image front
+
 ### Etape 4 - Jouons avec ArgoCD
+
+Bon, c'est pas mal, on a réussi à déployer notre application frontend / backend avec ArgoCD. Mais concrètement, que nous apporte ArgoCD ?
+
+Nous allons, à partir de cette étape, essayer de tester les capacités d'ArgoCD.
+
+Imaginons que vous travaillez dans l'équipe d'exploitation du cluster. Vous effectuez au quotidien des opérations de maintenance sur le cluster.
+
+Malheureusement, un matin, vous faites une mauvaise manipulation, et executez la commande suivante qui supprime le déploiement d'une de vos applications: 
+
+```bash
+kubectl delete deployment/[nom_deployment_backend] -n kcl-[identifant]
+```
+
+Le nom du deployment backend correspond à la valorisation du nom de l'application backend que vous avez positionné dans votre fichier de values, suivi de `-service`.
+Vous pouvez également le récupérer en executant la commande suivante :
+
+```bash
+kubectl delete deployment/[nom_deployment_backend] -n kcl-[identifant]
+```
+
+Allez-y, executer la commande, et observer ce qui se passe sur ArgoCD (Attention ca va très vite !) 😁
 
 ### Etape 5 - Décomissionement du frontend
 

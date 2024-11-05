@@ -12,7 +12,7 @@ spec:
   # Source of the application manifests
   source:
     repoURL: #TODO - Lien vers votre repository GitHub
-    path: #TODO - Chemin dans votre repository git 
+    path: #TODO - Chemin du chart Helm dans votre repository git 
     targetRevision: #TODO - Branche à cibler de votre repository Git 
     helm:
       releaseName: #TODO - Nom à donner à votre release helm - Libre :)
