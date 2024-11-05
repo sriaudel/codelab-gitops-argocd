@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: {{ .Values.frontend.name }}
-        image: {{ .Values.frontent.image }}
+        image: {{ .Values.frontend.image }}
         ports:
         - containerPort: {{ .Values.frontend.containerPort }}
