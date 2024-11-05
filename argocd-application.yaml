@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: https://github.com/rkaeffer/codelab-gitops-argocd.git
     path: helm-chart
-    targetRevision: main
+    targetRevision: solution
     helm:
       releaseName: my-app
   # Destination cluster and namespace to deploy the application
