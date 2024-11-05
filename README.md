@@ -43,7 +43,7 @@ Par défaut, ce cluster vous propose les services suivants :
     * Username : admin
     * Password : A REMPLIR LE JOUR DU LAB - ET A EFFACER APRES
 * Un environnement de développement pour chacun d'entre vous, composés de deux namespaces : 
-    * Un namespace, nommé kcl-[identifiant]-wk, portant un VScode et tout plein d'outils (kubectl, git, ...), et accessible à l'url [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
+    * Un namespace, nommé kcl-[identifiant]-wk, portant un OpenVScode et tout plein d'outils (kubectl, git, ...), et accessible à l'url [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
     * Un namespace, nommé kcl-[identifiant], où devra être déployé vos applications
 
 ## Pré-requis avant de démarrer
@@ -57,6 +57,55 @@ Pour pouvoir effectuer ce codelab, quatres pré-requis sont nécessaires (Pas de
 ## Instructions du codelab
 
 ### Etape 0 - Préparation et exploration
+
+Pour démarrer ce codelab, vous devez commencer par <b>forker dans votre espace personnel github</b> le repository https://github.com/rkaeffer/codelab-gitops-argocd. 
+
+![Fork github](docs/Fork.PNG "Fork github")
+
+Ce repository contient les sources qui seront à compléter durant ce lab.
+
+Il est composé comme suit : 
+
+```
+codelab-gitops-argocd
+│   README.md ==> Les instructions du lab
+│   argocd-application.yaml ==> Descripteur application argocd 
+│
+└───helm-chart ==> Contient un chart Helm que nous allons déployer 
+│   │   Chart.yaml ==> Descripteur du chart Helm
+│   │   values.yaml ==> Fichier de values du chart Helm
+│   │
+│   └───templates ==> Contient les manifests K8S que l'on va vouloir déployer
+│       │   ...
+│   
+└───docs ==> Contient les images du README (A ignorer)
+    │   ...
+```
+
+Une fois que vous avez forké votre le repository dans votre espace personnel github, vous devez le cloner dans votre environnement de travail.
+
+Pour cela, ouvrez un terminal dans votre espace de travail OpenVScode ([[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)) :
+*  Terminal -> New Terminal (Ou Ctrl + Shift + ù)
+
+Par défaut, le terminal est positionné dans un dossier "workspace" dans lequel vous allez travailler. C'est également ce dossier qui est positionné dans l'explotateur de fichier d'OpenVSCode.
+
+```bash
+git clone https://github.com/[username]/codelab-gitops-argocd
+```
+
+Votre environnement est configuré pour pouvoir manipuler le cluster Kubernetes sans configurer spécifique.
+Lancer la commande suivante et observer le résultat.
+
+```bash
+kubectl get ns
+```
+
+Vous pouvez observer que tout un ensemble de namespaces sont présents :
+* Les namesapces portant vos environnements de développement
+* Un namespace argo-cd, portant le déploiement d'ArgoCD
+* D'autres namespaces "techniques" nécessaires au bon fonctionnement de ce codelab
+
+
 
 ### Etape 1 - Créer une application dans ArgoCD
 
