@@ -43,8 +43,8 @@ Par défaut, ce cluster vous propose les services suivants :
     * Username : admin
     * Password : A REMPLIR LE JOUR DU LAB - ET A EFFACER APRES
 * Un environnement de développement pour chacun d'entre vous, composés de deux namespaces : 
-    * Un namespace, nommé kcl-[identifiant]-wk, portant un OpenVScode et tout plein d'outils (kubectl, git, ...), et accessible à l'url [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
-    * Un namespace, nommé kcl-[identifiant], où devra être déployé vos applications
+    * Un namespace, nommé kcl-[identifiant], portant un OpenVScode et tout plein d'outils (kubectl, git, ...), et accessible à l'url [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
+    * Un namespace, nommé kcl-[identifiant]-wk, où devra être déployé vos applications
 
 ## Pré-requis avant de démarrer
 
@@ -145,6 +145,9 @@ spec:
     name: in-cluster
     namespace: #TODO - Namespace de déploiement de votre application
 ```
+
+> [!CAUTION]
+> Soyez vigilant à bien utiliser votre namespace de deploiement applicatif pour ne aps déployer sur le namespace de vos camarades ! 
 
 A vous de jouer 😉
 
@@ -278,6 +281,9 @@ Si vous cliquez sur la petite flèche au niveau de l'ingress backend, vous devri
 > [!TIP]
 > Si une synchronisation reste bloqué (Elle n'est pas réellement bloqué, c'est juste qu'il y 5 retry successifs de respectivement 5s, 10s, 20s, 40s et 80s, cf. fichier de configuration argocd dans syncPolicy.retry.backoff, ce qui peut donner une impression de blocage), forcer la fin de synchronisation en cliquant sur "Terminate" depuis la vue de détails de la syncrhonisation.
 
+> [!IMPORTANT]
+> Jouez avec l'interface, regardez les logs de vos pods, explorez les statut et les manifests déployés. ArgoCD vous permet de tout superviser ! 
+
 ### Etape 3 - Deploiement du frontend
 
 Cette fois-ci, on va déployer une application frontend. Il vous suffit de refaire exactement la même chose que pour le backend, mais cette fois-ci, vous devez tout faire tout seul, il n'y a pas de fichier par défaut pour vous aider 🤔. L'application frontend sera contenu dans le chart déjà défini dans notre repository.
@@ -297,6 +303,9 @@ Si vous cliquez sur la petite flèche au niveau de l'ingress frontend, vous devr
 
 ![Application frontend](docs/front_end_result.PNG "Application frontend")
 
+> [!IMPORTANT]
+> Jouez avec l'interface, regardez les logs de vos pods, explorez les statut et les manifests déployés. ArgoCD vous permet de tout superviser ! 
+
 ### Etape 4 - Jouons avec ArgoCD
 
 Bon, c'est pas mal, on a réussi à déployer notre application frontend / backend avec ArgoCD. Mais concrètement, que nous apporte ArgoCD ?
@@ -308,23 +317,31 @@ Imaginons que vous travaillez dans l'équipe d'exploitation du cluster. Vous eff
 Malheureusement, un matin, vous faites une mauvaise manipulation, et executez la commande suivante qui supprime le déploiement d'une de vos applications: 
 
 ```bash
-kubectl delete deployment/[nom_deployment_backend] -n kcl-[identifant]
+kubectl delete deploy/[nom_deployment_backend] -n kcl-[identifant]-wk
 ```
 
 Le nom du deployment backend correspond à la valorisation du nom de l'application backend que vous avez positionné dans votre fichier de values, suivi de `-service`.
 Vous pouvez également le récupérer en executant la commande suivante :
 
 ```bash
-kubectl delete deployment/[nom_deployment_backend] -n kcl-[identifant]
+kubectl get deploy -n kcl-[identifant]-wk
 ```
 
 Allez-y, executer la commande, et observer ce qui se passe sur ArgoCD (Attention ca va très vite !) 😁
 
-Et oui... ArgoCD a corrigé tout seul l'erreur d'exploitation. En effet...
+Et oui... ArgoCD a corrigé tout seul l'erreur d'exploitation. En effet, la source de vérité, c'est Git, et Git précise qu'il doit y avoir un deploiement de notre backend. ArgoCD corrige donc la situation et tout revient rapidement à la normale 🥳
 
 ### Etape 5 - Décomissionement du frontend
 
+Le temps a passé, et notre frontend est dévenu obsolète 🤷‍♂️. Il est remplacé par une nouvelle application, développé avec un framework plus récent, et déployé par une autre équipe. Ce nouveau frontend viendra automatiquement se plugger sur notre backend. 
+
+Il est temps de décomissioner notre beau frontend 😢.
+
+
+
 ### Etape 6 - Rollback du décomissionement
+
+Catastrophe 🤦‍♂️ Le nouveau frontend déployé apr l'autre équipe ne fonctionne pas du tout 🤐. Il faut rétablir l'ancien service en urgence 🚨 !
 
 ### Etape 7 - Pour aller plus loin
 
