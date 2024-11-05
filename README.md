@@ -54,9 +54,13 @@ Pour pouvoir effectuer ce codelab, quatres pré-requis sont nécessaires (Pas de
 * Vérifier que vous avez bien accès à [ArgoCD](https://argo-cd.codelab.cloud-sp.eu/)
 * Vérifier que vous avez bien accès à votre environnement de travail : [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
 
+Cette fois-ci, vous êtes prêt !
+
 ## Instructions du codelab
 
 ### Etape 0 - Préparation et exploration
+
+Pour démarrer ce codelab, vous devez commencer par forker le repository github https://github.com/rkaeffer/codelab-gitops-argocd. Ce repository contient les sources qui seront à compléter durant ce lab.
 
 ### Etape 1 - Créer une application dans ArgoCD
 
