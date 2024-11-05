@@ -332,10 +332,10 @@ Et oui... ArgoCD a corrigé tout seul l'erreur d'exploitation. En effet...
 
 Nous arrivons déjà à la fin de ce lab 🎉 Toutes les bonnes choses ont une fin 😢
 
-Ce codelab vous a permis de découvrir et de mettre en pratique les principes fondamentaux de GitOps, un modèle de gestion et de déploiement qui tire pleinement parti des avantages de Git en tant que source unique de vérité. Vous avez appris à utiliser ArgoCD pour orchestrer ces déploiements sur un cluster Kubernetes, garantissant ainsi un pipeline de CI/CD moderne, automatisé et fiable.
+Ce codelab vous a permis de découvrir et de **mettre en pratique les principes fondamentaux de GitOps**, un modèle de gestion et de déploiement qui tire pleinement parti des avantages de Git en tant que source unique de vérité. Vous avez appris à utiliser ArgoCD pour orchestrer ces déploiements sur un cluster Kubernetes, garantissant ainsi un pipeline de CI/CD moderne, automatisé et fiable.
 
-Les pratiques que vous avez explorées renforcent la collaboration et la transparence au sein des équipes, tout en améliorant la résilience et la sécurité de vos déploiements. Grâce à un historique clair et des processus de validation robustes, vous êtes désormais mieux armés pour gérer efficacement l'évolution de vos applications et infrastructures.
+Les pratiques que vous avez explorées **renforcent la collaboration et la transparence** au sein des équipes, tout en améliorant la **résilience** et la **sécurité** de vos déploiements. Grâce à un historique clair et des processus de validation robustes, vous êtes désormais mieux armés pour gérer efficacement l'évolution de vos applications et infrastructures.
 
-N'oubliez pas que l'adoption du modèle GitOps est un voyage continu d'amélioration et d'apprentissage. Je vous encourage à appliquer ces concepts dans vos projets futurs, à expérimenter, et à adapter les méthodes apprises ici pour répondre aux besoins spécifiques de vos environnements et de vos équipes.
+N'oubliez pas que l'adoption du modèle GitOps est un **voyage continu d'amélioration** et d'apprentissage. Je vous encourage à appliquer ces concepts dans vos projets futurs, à expérimenter, et à adapter les méthodes apprises ici pour répondre aux besoins spécifiques de vos environnements et de vos équipes.
 
-Merci pour votre participation active à ce codelab, et bonne continuation dans vos aventures DevOps !
+✨Merci pour votre participation active à ce codelab, et bonne continuation dans vos aventures DevOps ! ✨
