@@ -6,17 +6,17 @@ Aujourd'hui, nous allons explorer la manière de mettre en place le GitOps avec 
 
 L'approche GitOps repose sur l'utilisation de référentiels Git comme unique source de vérité pour distribuer l'infrastructure en tant que code. Ainsi, l'approche GitOps apporte les avantages suivants : 
 
-* <b>Audit et Traçabilité :</b> Chaque changement est versionné et traçable grâce à l'historique Git, ce qui facilite l'audit des modifications et l'identification de la source des problèmes.
+* **Audit et Traçabilité :** Chaque changement est versionné et traçable grâce à l'historique Git, ce qui facilite l'audit des modifications et l'identification de la source des problèmes.
 
-* <b>Automatisation et Cohérence :</b> En automatisant les déploiements à partir des dépôts Git, GitOps réduit les erreurs humaines et assure une cohérence entre votre environnement de développement, de test et de production.
+* **Automatisation et Cohérence :** En automatisant les déploiements à partir des dépôts Git, GitOps réduit les erreurs humaines et assure une cohérence entre votre environnement de développement, de test et de production.
 
-* <b>Temps de Récupération Réduit :</b> En cas de problème, vous pouvez rapidement restaurer un état précédent de l'application ou de l'infrastructure simplement en revenant à une version antérieure du dépôt Git.
+* **Temps de Récupération Réduit :** En cas de problème, vous pouvez rapidement restaurer un état précédent de l'application ou de l'infrastructure simplement en revenant à une version antérieure du dépôt Git.
 
-* <b>Collaboration Facilitée :</b> Les développeurs et opérateurs peuvent collaborer plus efficacement via des pull requests et des revues de code, facilitant l'adoption de meilleures pratiques et la gestion des modifications.
+* **Collaboration Facilitée :** Les développeurs et opérateurs peuvent collaborer plus efficacement via des pull requests et des revues de code, facilitant l'adoption de meilleures pratiques et la gestion des modifications.
 
-* <b>Rapidité de Déploiement :</b> Les changements peuvent être déployés rapidement et fréquemment grâce à un processus automatisé, favorisant l'amélioration continue et l'innovation.
+* **Rapidité de Déploiement :** Les changements peuvent être déployés rapidement et fréquemment grâce à un processus automatisé, favorisant l'amélioration continue et l'innovation.
 
-* <b>Alignement avec les Principes DevOps :</b> GitOps s’aligne parfaitement avec les principes DevOps en intégrant le contrôle de version, l’automatisation et la collaboration dans le processus de gestion de l’infrastructure.
+* **Alignement avec les Principes DevOps :** GitOps s’aligne parfaitement avec les principes DevOps en intégrant le contrôle de version, l’automatisation et la collaboration dans le processus de gestion de l’infrastructure.
 
 ## Objectifs du codelab
 
@@ -34,7 +34,7 @@ Allez, c'est parti ! 🙂
 
 Nous vous avons mis un disposition un cluster Kubernetes déployé sur le cloud public Azure ([Azure Kubernetes Services](https://azure.microsoft.com/fr-fr/products/kubernetes-service)).
 
-Un <b>identifiant</b> vous est attribué à tous. Ce dernier est systématiquement composé de la manière suivante : <b>[premiere_lettre_de_votre_prenom][votre_nom]</b>. Voici deux exemples : 
+Un **identifiant** vous est attribué à tous. Ce dernier est systématiquement composé de la manière suivante : **[premiere_lettre_de_votre_prenom][votre_nom]**. Voici deux exemples : 
 * Rémi KAEFFER -> rkaeffer
 * Jason BOURLARD -> jbourlard
 
@@ -60,7 +60,7 @@ Cette fois-ci, vous êtes prêt !
 
 ### Etape 0 - Préparation et exploration
 
-Pour démarrer ce codelab, vous devez commencer par <b>forker dans votre espace personnel github</b> le repository https://github.com/rkaeffer/codelab-gitops-argocd. 
+Pour démarrer ce codelab, vous devez commencer par **forker dans votre espace personnel github** le repository https://github.com/rkaeffer/codelab-gitops-argocd. 
 
 ![Fork github](docs/Fork.PNG "Fork github")
 
@@ -115,9 +115,9 @@ N'hésitez pas à faire un tour des différents onglets pour explorer ce qu'ils 
 
 ### Etape 1 - Créer une application dans ArgoCD
 
-Comme expliqué en introduction, l'approche GitOps repose sur l'<b>utilisation de référentiels Git comme unique source de vérité</b> pour distribuer l'infrastructure en tant que code. ArgoCD nous permet de mettre en oeuvre ce principe en déployant sur un ou plusieurs clusters des descripteurs de déploiement stocké dans Git.
+Comme expliqué en introduction, l'approche GitOps repose sur l'**utilisation de référentiels Git comme unique source de vérité** pour distribuer l'infrastructure en tant que code. ArgoCD nous permet de mettre en oeuvre ce principe en déployant sur un ou plusieurs clusters des descripteurs de déploiement stocké dans Git.
 
-ArgoCD va ainsi nous permettre de définir des <b>applications</b>, décrites par un <b>ensemble de paramètre, notamment un lien vers un repository Git</b> qui contient les descriteurs que nous voulons déployer.
+ArgoCD va ainsi nous permettre de définir des **applications**, décrites par un **ensemble de paramètre, notamment un lien vers un repository Git** qui contient les descriteurs que nous voulons déployer.
 
 Vous allez devoir créer votre première aplication dans ArgoCD en complétant la partie haute du fichier argocd-application !
 
@@ -196,7 +196,8 @@ Si tout s'est bien passé, vous devriez obtenir sur ArgoCD le résultat suivant 
 
 Vous pouvez explorez le détails de votre application sur ArgoCD. Vous constatez que pour le moment ArgoCD n'a pas déployé grand chose.
 
-NB : Pour aller plus loin, et pour passer à un cran au dessus dans l'approche GitOps, une utilisation courante dans l'industrie est de déployer un ArgoCD "applicatif" avec les configurations des applications qu'il doit déployer à l'aide d'un ArgoCD "infrastructure", pour que les équipes implémentant les applicatifs adopte une approche full GitOps (Pas de commande d'apply à faire sur le cluster Kubernetes). En somme : "Un ArgoCD pour les gouverner tous, un ArgoCD pour les déployer, un ArgoCD pour les superviser et dans le cloud les lier !"
+> [!NOTE]
+> Pour aller plus loin, et pour passer à un cran au dessus dans l'approche GitOps, une utilisation courante dans l'industrie est de déployer un ArgoCD "applicatif" avec les configurations des applications qu'il doit déployer à l'aide d'un ArgoCD "infrastructure", pour que les équipes implémentant les applicatifs adopte une approche full GitOps (Pas de commande d'apply à faire sur le cluster Kubernetes). En somme : "Un ArgoCD pour les gouverner tous, un ArgoCD pour les déployer, un ArgoCD pour les superviser et dans le cloud les lier !"
 
 ### Etape 2 - Deploiement du backend
 
@@ -206,7 +207,7 @@ Nous allons commencer par déployer un simple microservice Java. Nous avons pré
 
 Voici un petit schéma qui rapelle les composants à mettre en oeuvre sur Kubernetes pour déployer et exposer une application : 
 
-![Basiques du déploiement sur K8S](docs/basic_k8s.PNG "Basiques du déploiement sur K8S")
+![Basiques du déploiement sur K8S](docs/basic_k8s.png "Basiques du déploiement sur K8S")
 
 Vous allez créer un composant déploiement (deploy), qui va instancier un replicaSet (rs), qui va instancier des pods (pod). Ces pods vont être exposés sur le cluster à l'aide d'un service (svc). Les services sont exposés à l'extérieur du cluster à l'aide d'ingress (ing).
 
