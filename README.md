@@ -43,7 +43,7 @@ Par défaut, ce cluster vous propose les services suivants :
     * Username : admin
     * Password : A REMPLIR LE JOUR DU LAB - ET A EFFACER APRES
 * Un environnement de développement pour chacun d'entre vous, composés de deux namespaces : 
-    * Un namespace, nommé kcl-[identifiant]-wk, portant un VScode et tout plein d'outils (kubectl, git, ...), et accessible à l'url [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
+    * Un namespace, nommé kcl-[identifiant]-wk, portant un OpenVScode et tout plein d'outils (kubectl, git, ...), et accessible à l'url [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
     * Un namespace, nommé kcl-[identifiant], où devra être déployé vos applications
 
 ## Pré-requis avant de démarrer
@@ -60,9 +60,75 @@ Cette fois-ci, vous êtes prêt !
 
 ### Etape 0 - Préparation et exploration
 
+
+Pour démarrer ce codelab, vous devez commencer par <b>forker dans votre espace personnel github</b> le repository https://github.com/rkaeffer/codelab-gitops-argocd. 
+
+![Fork github](docs/Fork.PNG "Fork github")
+
+Ce repository contient les sources qui seront à compléter durant ce lab.
+
+Il est composé comme suit : 
+
+```
+codelab-gitops-argocd
+│   README.md ==> Les instructions du lab
+│   argocd-application.yaml ==> Descripteur application argocd 
+│
+└───helm-chart ==> Contient un chart Helm que nous allons déployer 
+│   │   Chart.yaml ==> Descripteur du chart Helm
+│   │   values.yaml ==> Fichier de values du chart Helm
+│   │
+│   └───templates ==> Contient les manifests K8S que l'on va vouloir déployer
+│       │   ...
+│   
+└───docs ==> Contient les images du README (A ignorer)
+    │   ...
+```
+
+Une fois que vous avez forké votre le repository dans votre espace personnel github, vous devez le cloner dans votre environnement de travail.
+
+Pour cela, ouvrez un terminal dans votre espace de travail OpenVScode ([[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)) :
+*  Terminal -> New Terminal (Ou Ctrl + Shift + ù)
+
+Par défaut, le terminal est positionné dans un dossier "workspace" dans lequel vous allez travailler. C'est également ce dossier qui est positionné dans l'explotateur de fichier d'OpenVSCode.
+
+```bash
+git clone https://github.com/[username]/codelab-gitops-argocd
+```
+
+Votre environnement est configuré pour pouvoir manipuler le cluster Kubernetes sans configurer spécifique.
+Lancer la commande suivante et observer le résultat.
+
+```bash
+kubectl get ns
+```
+
+Vous pouvez observer que tout un ensemble de namespaces sont présents :
+* Les namesapces portant vos environnements de développement
+* Un namespace argo-cd, portant le déploiement d'ArgoCD
+* D'autres namespaces "techniques" nécessaires au bon fonctionnement de ce codelab
+
+Allons faire un tour sur [ArgoCD](https://argo-cd.codelab.cloud-sp.eu/) :
+
+![Présentation ArgoCD](docs/argo_initial.PNG "Présentation d'ArgoCD")
+
+N'hésitez pas à faire un tour des différents onglets pour explorer ce qu'ils contiennent !
+=======
 Pour démarrer ce codelab, vous devez commencer par forker le repository github https://github.com/rkaeffer/codelab-gitops-argocd. Ce repository contient les sources qui seront à compléter durant ce lab.
 
+
 ### Etape 1 - Créer une application dans ArgoCD
+
+Comme expliqué en introduction, l'approche GitOps repose sur l'<b>utilisation de référentiels Git comme unique source de vérité</b> pour distribuer l'infrastructure en tant que code. ArgoCD nous permet de mettre en oeuvre ce principe en déployant sur un ou plusieurs clusters des descripteurs de déploiement stocké dans Git.
+
+ArgoCD va ainsi nous permettre de définir des <b>applications</b>, décrites par un <b>ensemble de paramètre, notamment un lien vers un repository Git</b> qui contient les descriteurs que nous voulons déployer.
+
+Vous allez devoir créer votre première aplication dans ArgoCD en complétant le fichier argocd-application !
+
+
+...
+
+NB : Pour aller plus loin, et pour passer à un cran au dessus dans l'approche GitOps, une utilisation courante dans l'industrie est de déployer un ArgoCD "applicatif" avec les configurations des applications qu'il doit déployer à l'aide d'un ArgoCD "infrastructure", pour que les équipes implémentant les applicatifs adopte une approche full GitOps (Pas de commande d'apply à faire sur le cluster Kubernetes). En somme : "Un ArgoCD pour les gouverner tous, un ArgoCD pour les déployer, un ArgoCD pour les superviser et dans le cloud les lier !"
 
 ### Etape 2 - Deploiement du backend
 
