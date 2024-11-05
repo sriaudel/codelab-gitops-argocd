@@ -295,7 +295,7 @@ Si tout s'est bien passé, vous devriez obtenir le résultat suivant sur ArgoCD 
 
 Si vous cliquez sur la petite flèche au niveau de l'ingress frontend, vous devriez accéder à votre application frontend.
 
-![Application frontend](docs/back_end_result.PNG "Application frontend")
+![Application frontend](docs/front_end_result.PNG "Application frontend")
 
 ### Etape 4 - Jouons avec ArgoCD
 
@@ -328,4 +328,14 @@ Et oui... ArgoCD a corrigé tout seul l'erreur d'exploitation. En effet...
 
 ### Etape 7 - Pour aller plus loin
 
-## Tips pour le lab
+## Pour conclure
+
+Nous arrivons déjà à la fin de ce lab 🎉 Toutes les bonnes choses ont une fin 😢
+
+Ce codelab vous a permis de découvrir et de mettre en pratique les principes fondamentaux de GitOps, un modèle de gestion et de déploiement qui tire pleinement parti des avantages de Git en tant que source unique de vérité. Vous avez appris à utiliser ArgoCD pour orchestrer ces déploiements sur un cluster Kubernetes, garantissant ainsi un pipeline de CI/CD moderne, automatisé et fiable.
+
+Les pratiques que vous avez explorées renforcent la collaboration et la transparence au sein des équipes, tout en améliorant la résilience et la sécurité de vos déploiements. Grâce à un historique clair et des processus de validation robustes, vous êtes désormais mieux armés pour gérer efficacement l'évolution de vos applications et infrastructures.
+
+N'oubliez pas que l'adoption du modèle GitOps est un voyage continu d'amélioration et d'apprentissage. Je vous encourage à appliquer ces concepts dans vos projets futurs, à expérimenter, et à adapter les méthodes apprises ici pour répondre aux besoins spécifiques de vos environnements et de vos équipes.
+
+Merci pour votre participation active à ce codelab, et bonne continuation dans vos aventures DevOps !
