@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: {{ .Values.frontend.name }}
   labels:
-    app: frontend
+    app: {{ .Values.frontend.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: {{ .Values.frontend.name }}
   template:
     metadata:
       labels:
-        app: frontend
+        app: {{ .Values.frontend.name }}
     spec:
       containers:
-      - name: frontend
-        image: docker.io/rkaeffer/codelab-gitops-frontend:1.0.0
+      - name: {{ .Values.frontend.name }}
+        image: {{ .Values.frontent.image }}
         ports:
-        - containerPort: 4200
+        - containerPort: {{ .Values.frontend.containerPort }}
