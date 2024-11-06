@@ -115,11 +115,11 @@ N'hésitez pas à faire un tour des différents onglets pour explorer ce qu'ils 
 
 ### Etape 1 - Créer une application dans ArgoCD
 
-Comme expliqué en introduction, l'approche GitOps repose sur l'**utilisation de référentiels Git comme unique source de vérité** pour distribuer l'infrastructure en tant que code. ArgoCD nous permet de mettre en oeuvre ce principe en déployant sur un ou plusieurs clusters des descripteurs de déploiement stocké dans Git.
+Comme expliqué en introduction, l'approche GitOps repose sur l'**utilisation de référentiels Git comme unique source de vérité** pour distribuer l'infrastructure en tant que code. ArgoCD nous permet de mettre en oeuvre ce principe en déployant sur un ou plusieurs clusters des descripteurs de déploiement stockés dans Git.
 
-ArgoCD va ainsi nous permettre de définir des **applications**, décrites par un **ensemble de paramètre, notamment un lien vers un repository Git** qui contient les descriteurs que nous voulons déployer.
+ArgoCD va ainsi nous permettre de définir des **applications**, décrites par un **ensemble de paramètres, notamment un lien vers un repository Git** qui contient les descripteurs que nous voulons déployer.
 
-Vous allez devoir créer votre première aplication dans ArgoCD en complétant la partie haute du fichier argocd-application !
+Vous allez devoir créer votre première application dans ArgoCD en complétant la partie haute du fichier argocd-application !
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -147,7 +147,7 @@ spec:
 ```
 
 > [!CAUTION]
-> Soyez vigilant à bien utiliser votre namespace de deploiement applicatif pour ne aps déployer sur le namespace de vos camarades ! 
+> Soyez vigilant à bien utiliser votre namespace de deploiement applicatif pour ne pas déployer sur le namespace de vos camarades ! 
 
 A vous de jouer 😉
 
@@ -200,10 +200,10 @@ Si tout s'est bien passé, vous devriez obtenir sur ArgoCD le résultat suivant 
 Vous pouvez explorez le détails de votre application sur ArgoCD. Vous constatez que pour le moment ArgoCD n'a pas déployé grand chose.
 
 > [!NOTE]
-> Pour aller plus loin, et pour passer à un cran au dessus dans l'approche GitOps, une utilisation courante dans l'industrie est de déployer un ArgoCD "applicatif" avec les configurations des applications qu'il doit déployer à l'aide d'un ArgoCD "infrastructure", pour que les équipes implémentant les applicatifs adopte une approche full GitOps (Pas de commande d'apply à faire sur le cluster Kubernetes). 
+> Pour aller plus loin, et pour passer un cran au dessus dans l'approche GitOps, une utilisation courante dans l'industrie est de déployer un ArgoCD "applicatif" avec les configurations des applications qu'il doit déployer à l'aide d'un ArgoCD "infrastructure", pour que les équipes implémentant les applicatifs adoptent une approche full GitOps (Pas de commande d'apply à faire sur le cluster Kubernetes). 
 > **En somme : "Un ArgoCD pour les gouverner tous, un ArgoCD pour les déployer, un ArgoCD pour les superviser et dans le cloud les lier !"**
 
-### Etape 2 - Deploiement du backend
+### Etape 2 - Déploiement du backend
 
 Avoir une application ArgoCD correctement configuré c'est bien, que cette application ArgoCD déploie un applicatif, c'est mieux ! 
 
@@ -233,56 +233,56 @@ Nous allons nous intéresser désormais au sous-dossier `helm-chart/templates`, 
 * `backend-service.yaml` : Composant service
 * `backend-ingress.yaml` : Composant ingress
 
-Commencez par décommentez entièrement les 3 fichier (Sur chaque fichier : `Ctrl + a`, `puis Ctrl + /`).
+Commencez par décommentez entièrement les 3 fichiers (Sur chaque fichier : `Ctrl + a`, puis `Ctrl + /`).
 
-Les fichiers sont déjà complétés pour vous. Nous ne détaillerons pas le contenu de chacun des fichiers. Gloablement, il s'agit de descritepru minimaliste pour déployer une appliction sur Kubernetes. Vous pouvez prendre le temps de les observer dans le détail, notamment le parametrage à faire à l'aide du templating Go par l'intermédiaire du fichier `values.yaml`. 
+Les fichiers sont déjà complétés pour vous. Nous ne détaillerons pas le contenu de chacun des fichiers. Globalement, il s'agit de descripteur minimaliste pour déployer une application sur Kubernetes. Vous pouvez prendre le temps de les observer dans le détail, notamment le paramétrage à faire à l'aide du templating Go par l'intermédiaire du fichier `values.yaml`. 
 
 Vous allez devoir compléter le fichier `values.yaml`. Remplissez-le à l'aide des informations ci-dessous :
 
 * Vous pouvez nommer librement votre application backend
-* Le backend est servi par un serveur applicatif embarqué via SpringBootqui écoute sur le port `8080`
+* Le backend est servi par un serveur applicatif embarqué via SpringBoot qui écoute sur le port `8080`
 * L'image de conteneur du backend est disponible ici : `docker.io/rkaeffer/codelab-gitops-backend:1.0.0`
 * Le nom de domaine à utiliser doit être dans le sous-domaine `*.codelab.cloud-sp.eu`. Le mieux est d'utiliser `[identifiant]-backend.codelab.cloud-sp.eu`
 * Le service doit être exposé en TLS sur port `443`
 
-Une fois cela fait, pushez votre travail sur votre repository github. Pour rappel, votre identifiant sur github est votre nom d'utilisateur github, et votre mot de passe est votre personal access token.
+Une fois cela fait, pushez votre travail sur votre repository github.
 
 > [!CAUTION]
 > Vous devrez configurer quelques variables git avant votre premier commit
 
 > [!CAUTION]
-> Au moment de votre premier push, vous devrez vous authentifier. La methode la plus simple est la suivante : Au moment de votre premier push, une pop-up apparait vous demandant de vous connecter, accepter, vous serez rédigez vers une page vous demandant un One Time Password (OTP). L'OTP est disponible dans une notification en bas à droite de votre espace de travail. Saisissez l'OTP et c'est tout bon !
+> Au moment de votre premier push, vous devrez vous authentifier. La methode la plus simple est la suivante : Au moment de votre premier push, une pop-up apparait vous demandant de vous connecter. Accepter, et vous serez rédigez vers une page vous demandant un One Time Password (OTP). L'OTP est disponible dans une notification en bas à droite de votre espace de travail. Saisissez l'OTP et c'est tout bon !
 
 ```shell
-#Configuration des variables git obligatoires
+# Configuration des variables git obligatoires
 git config --global user.email "votre@email.com"
 git config --gloabl user.name "Prénom nom"
 git add .
 git commit -m "Deploiement backend"
-#Demande d'authentification sur ce premier push
+# Demande d'authentification sur ce premier push
 git push -u origin main
 ```
 
 > [!TIP]
-> ArgoCD fait une opération de syncrhonisation automatique avec votre repository Git toutes les 180 secondes. Vous pouvez forcer la synchronisation en appuyant sur "SYNC" depuis la vue sur votre application.
+> Par défaut, ArgoCD fait une opération de synchronisation automatique avec votre repository Git toutes les 180 secondes. Vous pouvez forcer la synchronisation en appuyant sur "SYNC" depuis la vue sur votre application.
 
-Une fois la synchronisation déclenché, le déploiement se fait en quelques secondes.
+Une fois la synchronisation déclenchée, le déploiement se fait en quelques secondes.
 
 Si tout se passe bien, vous devriez obtenir le résultat suivant : 
 
 ![Résultat déploiement backend](docs/argo_deploy_back1.PNG "Résultat déploiement backend")
 
-Sinon, corriger les erreurs, et recommencez !
+Sinon, corrigez les erreurs, et recommencez !
 
 Si vous cliquez sur la petite flèche au niveau de l'ingress backend, vous devriez accéder à votre application backend.
 
 ![Application backend](docs/back_end_result.PNG "Application backend")
 
 > [!TIP]
-> Si une synchronisation reste bloqué (Elle n'est pas réellement bloqué, c'est juste qu'il y 5 retry successifs de respectivement 5s, 10s, 20s, 40s et 80s, cf. fichier de configuration argocd dans syncPolicy.retry.backoff, ce qui peut donner une impression de blocage), forcer la fin de synchronisation en cliquant sur "Terminate" depuis la vue de détails de la syncrhonisation.
+> Si une synchronisation reste bloquée (Elle n'est pas réellement bloqué, c'est juste qu'il y 5 retry successifs de respectivement 5s, 10s, 20s, 40s et 80s, cf. fichier de configuration argocd, paramètre syncPolicy.retry.backoff, ce qui peut donner une impression de blocage), forcer la fin de synchronisation en cliquant sur "Terminate" depuis la vue de détails de la synchronisation.
 
 > [!IMPORTANT]
-> Jouez avec l'interface, regardez les logs de vos pods, explorez les statut et les manifests déployés. ArgoCD vous permet de tout superviser ! 
+> Jouez avec l'interface, regardez les logs de vos pods, explorez les statuts et les manifests déployés. ArgoCD vous permet de tout superviser ! 
 
 ### Etape 3 - Deploiement du frontend
 
@@ -304,7 +304,7 @@ Si vous cliquez sur la petite flèche au niveau de l'ingress frontend, vous devr
 ![Application frontend](docs/front_end_result.PNG "Application frontend")
 
 > [!IMPORTANT]
-> Jouez avec l'interface, regardez les logs de vos pods, explorez les statut et les manifests déployés. ArgoCD vous permet de tout superviser ! 
+> Jouez avec l'interface, regardez les logs de vos pods, explorez les statuts et les manifests déployés. ArgoCD vous permet de tout superviser ! 
 
 ### Etape 4 - Jouons avec ArgoCD
 
@@ -321,19 +321,19 @@ kubectl delete deploy/[nom_deployment_backend] -n kcl-[identifant]-wk
 ```
 
 Le nom du deployment backend correspond à la valorisation du nom de l'application backend que vous avez positionné dans votre fichier de values, suivi de `-service`.
-Vous pouvez également le récupérer en executant la commande suivante :
+Vous pouvez également le récupérer en éxecutant la commande suivante :
 
 ```bash
 kubectl get deploy -n kcl-[identifant]-wk
 ```
 
-Allez-y, executer la commande, et observer ce qui se passe sur ArgoCD (Attention ca va très vite !) 😁
+Allez-y, éxecuter la commande, et observer ce qui se passe sur ArgoCD (Attention ca va très vite !) 😁
 
 Et oui... ArgoCD a corrigé tout seul l'erreur d'exploitation. En effet, la source de vérité, c'est Git, et Git précise qu'il doit y avoir un deploiement de notre backend. ArgoCD corrige donc la situation et tout revient rapidement à la normale 🥳
 
 ### Etape 5 - Décomissionement du frontend
 
-Le temps a passé, et notre frontend est dévenu obsolète 🤷‍♂️. Il est remplacé par une nouvelle application, développé avec un framework plus récent, et déployé par une autre équipe. Ce nouveau frontend viendra automatiquement se plugger sur notre backend. 
+Le temps a passé, et notre frontend est dévenu obsolète 🤷‍♂️. Il est remplacé par une nouvelle application, développée avec un framework plus récent, et déployée par une autre équipe. Ce nouveau frontend viendra automatiquement se plugger sur notre backend. 
 
 Il est temps de décomissioner notre beau frontend 😢.
 
@@ -348,7 +348,7 @@ Simple comme bonjour 😀
 
 Catastrophe 🤦‍♂️ Le nouveau frontend déployé par l'autre équipe ne fonctionne pas du tout 🤐. La maitrise d'ouvrage et la maitrise d'oeuvre sont en panique, c'est la débandade ! Il faut rétablir l'ancien service en urgence 🚨 !
 
-Cliquez donc sur "History and Rollback". Vous pouvez visualiez une liste à deux elements : 
+Cliquez donc sur "History and Rollback". Vous pouvez visualisez une liste à deux élements : 
 * La version courante que vous pouvez "redeploy"
 * La version précédente que vous pouvez "rollback"
 
@@ -361,10 +361,10 @@ Nous pouvons noter plusieurs choses interéssantes sur l'interface :
 ![Rollback argocd](docs/argo_rollback.PNG "Rollback ArgoCD")
 
 * Premièrement : l'auto sync a été désactivé, en effet, en effectuant le rollback, nous nous sommes détachés de notre source de vérité. Si l'auto sync était actif, le rollback serait annulé tout aussi vite qu'il avait été déclenché.
-* Deuxièment : ArgoCD nous précise qu'il y a des composants UPs sui normalement devrait être supprimés à l'aide d'une petite icône de corbeille jaune, ce qui nous permet de détecter qu'il y a eu une opération inhabituelle.
+* Deuxièment : ArgoCD nous précise qu'il y a des composants UPs, qui normalement devrait être supprimés, à l'aide d'une petite icône de corbeille jaune, ce qui nous permet de détecter qu'il y a eu une opération inhabituelle.
 
 > [!IMPORTANT]
-> Ici, nous avons effectué le rollback via ArgoCD. La méthode la plus propre aurait été de faire un revert sur Git, pour que notre source de vérité soir toujours à jour. Mais dans l'urgence, l'option que nous avons choisi reste valable !
+> Ici, nous avons effectué le rollback via ArgoCD. La méthode la plus propre aurait été de faire un revert sur Git, pour que notre source de vérité soit toujours à jour. Mais dans l'urgence, l'option que nous avons choisi reste valable !
 
 > [!NOTE]
 > Pour revenir à une situation nominale, il faut rétablir notre source de vérité à l'état souhaité dans Git, puis redéployer notre objet application ArgoCD pour réactiver l'auto-sync.
