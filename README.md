@@ -95,7 +95,7 @@ Par défaut, le terminal est positionné dans un dossier "workspace" dans lequel
 git clone https://github.com/[username]/codelab-gitops-argocd
 ```
 
-Votre environnement est configuré pour pouvoir manipuler le cluster Kubernetes sans configurer spécifique.
+Votre environnement est configuré pour pouvoir manipuler le cluster Kubernetes sans configuration spécifique à effectuer au préalable.
 Lancer la commande suivante et observer le résultat.
 
 ```bash
