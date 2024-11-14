@@ -233,7 +233,7 @@ Nous allons nous intéresser désormais au sous-dossier `helm-chart/templates`, 
 * `backend-service.yaml` : Composant service
 * `backend-ingress.yaml` : Composant ingress
 
-Commencez par décommentez entièrement les 3 fichiers (Sur chaque fichier : `Ctrl + a`, puis `Ctrl + /`).
+Commencez par décommentez entièrement les 3 fichiers (Sur chaque fichier : `Ctrl + a`, puis `Ctrl + :`).
 
 Les fichiers sont déjà complétés pour vous. Nous ne détaillerons pas le contenu de chacun des fichiers. Globalement, il s'agit de descripteur minimaliste pour déployer une application sur Kubernetes. Vous pouvez prendre le temps de les observer dans le détail, notamment le paramétrage à faire à l'aide du templating Go par l'intermédiaire du fichier `values.yaml`. 
 
@@ -373,10 +373,42 @@ Nous pouvons noter plusieurs choses interéssantes sur l'interface :
 
 Vous avez fini en avance ? Sentez vous libre de faire des expérimentations 😎
 
-Voici quelques idées :
-* TODO
-* TODO
-* TODO
+Voici une idée : déployer un outil sur étagère ! 
+
+Créer donc une application argocd avec cette configuration qui permet de déployer un SonarQube : 
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    k8slens-edit-resource-version: v1alpha1
+  name: sonarqube
+  namespace: argo-cd
+spec:
+  destination:
+    namespace: kcl-[identifiant]-wk 
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: sonarqube
+    helm:
+      releaseName: sonarqube
+      valuesObject:
+        ingress:
+          enabled: true
+          hosts:
+          - name: sonar-[identifiant].codelab.cloud-sp.eu
+          tls:
+          - hosts:
+            - sonar-[identifiant].codelab.cloud-sp.eu
+    # github: https://github.com/SonarSource/helm-chart-sonarqube/tree/master/charts/sonarqube
+    repoURL: https://SonarSource.github.io/helm-chart-sonarqube
+    # versions: https://sonarsource.github.io/helm-chart-sonarqube/index.yaml
+    targetRevision: 10.7.0+3598 
+```
+
+Vous remarquerez qu'on pointe directement sur le Chart Helm proposé par Sonar Source, et hop, c'est déployé !
 
 ## Pour conclure
 
