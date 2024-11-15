@@ -6,10 +6,10 @@ backend:
   host: sriaudel-backend.codelab.cloud-sp.eu
   service:
     port: 443
-#frontend:
-#  name: applisebfront
-#  image: docker.io/rkaeffer/codelab-gitops-frontend:1.0.0
-#  containerPort: 4200
-#  host: sriaudel-frontend.codelab.cloud-sp.eu
-#  service:
-#    port: 443
+frontend:
+ name: applisebfront
+ image: docker.io/rkaeffer/codelab-gitops-frontend:1.0.0
+ containerPort: 4200
+ host: sriaudel-frontend.codelab.cloud-sp.eu
+ service:
+   port: 443
