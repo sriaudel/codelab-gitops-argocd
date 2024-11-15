@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Values.backend.name }}-deployment"
+  name: "{{ .Values.frontend.name }}-deployment"
   labels:
-    app: {{ .Values.backend.name }}
+    app: {{ .Values.frontend.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.backend.name }}
+      app: {{ .Values.frontend.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.backend.name }}
+        app: {{ .Values.frontend.name }}
     spec:
       containers:
-      - name: {{ .Values.backend.name }}
-        image: {{ .Values.backend.image }}
+      - name: {{ .Values.frontend.name }}
+        image: {{ .Values.frontend.image }}
         ports:
-        - containerPort: {{ .Values.backend.containerPort }}
+        - containerPort: {{ .Values.frontend.containerPort }}
           name: http
