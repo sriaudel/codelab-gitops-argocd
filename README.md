@@ -43,8 +43,10 @@ Par défaut, ce cluster vous propose les services suivants :
     * Username : admin
     * Password : A REMPLIR LE JOUR DU LAB - ET A EFFACER APRES
 * Un environnement de développement pour chacun d'entre vous, composés de deux namespaces : 
-    * Un namespace, nommé kcl-[identifiant], portant un OpenVScode et tout plein d'outils (kubectl, git, ...), et accessible à l'url [[identifiant]-kcl.codelab.cloud-sp.eu](tochange-kcl.codelab.sp.eu)
+    * Un namespace, nommé kcl-[identifiant], portant un OpenVScode et tout plein d'outils (kubectl, git, ...)
     * Un namespace, nommé kcl-[identifiant]-wk, où devra être déployé vos applications
+
+Pour accéder à votre environnement, aller sur [fabricator.codelab.cloud-sp.eu](fabricator.codelab.cloud-sp.eu). Loggez vous avec votre identifiant. L'URL de votre identifiant est disponible sur l'interface.
 
 ## Pré-requis avant de démarrer
 
